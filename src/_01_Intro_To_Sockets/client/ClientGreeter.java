@@ -1,6 +1,9 @@
 package _01_Intro_To_Sockets.client;
 
 import java.net.*;
+
+import javax.swing.JOptionPane;
+
 import java.io.*;
 
 public class ClientGreeter {
@@ -8,16 +11,27 @@ public class ClientGreeter {
    public static void main(String [] args) {
 	  //1. Create a String for the ip address of the server. 
 	  // If you don't know how to find a computer's ip address, ask about ifconfig on linux/mac and ipconfig on windows.
+      String ip = JOptionPane.showInputDialog("What is the ip: ");
       
       //2. Create an integer for the server's port number
-      
+      String temp = JOptionPane.showInputDialog("What is the port number: ");
+      int portNum = Integer.parseInt(temp);
       //3. Surround steps 4-9 in a try-catch block that catches any IOExceptions.
-    
+    try {
+    	Socket connection = new Socket(ip, portNum);
+    	DataOutputStream outStream = new DataOutputStream(connection.getOutputStream());
+    	outStream.writeUTF(JOptionPane.showInputDialog("What is the message you want to write: "));
+    	DataInputStream inStream = new DataInputStream(connection.getInputStream());
+    	JOptionPane.showMessageDialog(null, "From the server: " + inStream.readUTF());
+    	connection.close();
+    }catch(Exception e){
+    	e.printStackTrace();
+    }
     	 //4. Create an object of the Socket class. When initializing the object, pass in the ip address and the port number
  
-         //5. Create a DataOutputStream object. When initializing it, use the Socket object you created in step 4 to call the getOutputStream() method.
+         //5. Create a DataOutputStream object. When initializing it, use the Socket object you created in step 4 to call the getOutputStream() method. 
          
-         //6. Use the DataOutputStream object to send a message to the server using the writeUTF(String message) method
+         //6. Use the DataOutputStream object to send a message to the server using the writeUTF(String message) method 
          
          //7. Create a DataInputStream object. When initializing it, use the Server object you created in step 4 to call the getInputStream() method.
          
